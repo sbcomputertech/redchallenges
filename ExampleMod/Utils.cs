@@ -1,0 +1,261 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+using UnityEngine;
+using UnityEngine.InputSystem.Controls;
+using UnityEngine.InputSystem;
+
+namespace ChallengeMod
+{
+    public class Utils
+    {
+        public static Texture2D getTextureOfColor(Color color)
+        {
+            Texture2D tex2 = new(10, 10);
+            var fillColorArray = tex2.GetPixels();
+
+            for (var i = 0; i < fillColorArray.Length; ++i)
+            {
+                fillColorArray[i] = color;
+            }
+
+            tex2.SetPixels(fillColorArray);
+
+            tex2.Apply();
+            return tex2;
+        }
+        public static ButtonControl GetControl(KeyCode key)
+        {
+            switch (key)
+            {
+                case (KeyCode)8:
+                    return Keyboard.current.backspaceKey;
+                case (KeyCode)9:
+                    return Keyboard.current.tabKey;
+                case (KeyCode)13:
+                    return Keyboard.current.enterKey;
+                case (KeyCode)19:
+                    return Keyboard.current.pauseKey;
+                case (KeyCode)27:
+                    return Keyboard.current.escapeKey;
+                case (KeyCode)32:
+                    return Keyboard.current.spaceKey;
+                case (KeyCode)39:
+                    return Keyboard.current.quoteKey;
+                case (KeyCode)43:
+                    return Keyboard.current.numpadPlusKey;
+                case (KeyCode)44:
+                    return Keyboard.current.commaKey;
+                case (KeyCode)45:
+                    return Keyboard.current.minusKey;
+                case (KeyCode)46:
+                    return Keyboard.current.periodKey;
+                case (KeyCode)47:
+                    return Keyboard.current.slashKey;
+                case (KeyCode)48:
+                    return Keyboard.current.digit0Key;
+                case (KeyCode)49:
+                    return Keyboard.current.digit1Key;
+                case (KeyCode)50:
+                    return Keyboard.current.digit2Key;
+                case (KeyCode)51:
+                    return Keyboard.current.digit3Key;
+                case (KeyCode)52:
+                    return Keyboard.current.digit4Key;
+                case (KeyCode)53:
+                    return Keyboard.current.digit5Key;
+                case (KeyCode)54:
+                    return Keyboard.current.digit6Key;
+                case (KeyCode)55:
+                    return Keyboard.current.digit7Key;
+                case (KeyCode)56:
+                    return Keyboard.current.digit8Key;
+                case (KeyCode)57:
+                    return Keyboard.current.digit9Key;
+                case (KeyCode)59:
+                    return Keyboard.current.semicolonKey;
+                case (KeyCode)61:
+                    return Keyboard.current.equalsKey;
+                case (KeyCode)91:
+                    return Keyboard.current.leftBracketKey;
+                case (KeyCode)92:
+                    return Keyboard.current.backslashKey;
+                case (KeyCode)93:
+                    return Keyboard.current.rightBracketKey;
+                case (KeyCode)96:
+                    return Keyboard.current.backquoteKey;
+                case (KeyCode)97:
+                    return Keyboard.current.aKey;
+                case (KeyCode)98:
+                    return Keyboard.current.bKey;
+                case (KeyCode)99:
+                    return Keyboard.current.cKey;
+                case (KeyCode)100:
+                    return Keyboard.current.dKey;
+                case (KeyCode)101:
+                    return Keyboard.current.eKey;
+                case (KeyCode)102:
+                    return Keyboard.current.fKey;
+                case (KeyCode)103:
+                    return Keyboard.current.gKey;
+                case (KeyCode)104:
+                    return Keyboard.current.hKey;
+                case (KeyCode)105:
+                    return Keyboard.current.iKey;
+                case (KeyCode)106:
+                    return Keyboard.current.jKey;
+                case (KeyCode)107:
+                    return Keyboard.current.kKey;
+                case (KeyCode)108:
+                    return Keyboard.current.lKey;
+                case (KeyCode)109:
+                    return Keyboard.current.mKey;
+                case (KeyCode)110:
+                    return Keyboard.current.nKey;
+                case (KeyCode)111:
+                    return Keyboard.current.oKey;
+                case (KeyCode)112:
+                    return Keyboard.current.pKey;
+                case (KeyCode)113:
+                    return Keyboard.current.qKey;
+                case (KeyCode)114:
+                    return Keyboard.current.rKey;
+                case (KeyCode)115:
+                    return Keyboard.current.sKey;
+                case (KeyCode)116:
+                    return Keyboard.current.tKey;
+                case (KeyCode)117:
+                    return Keyboard.current.uKey;
+                case (KeyCode)118:
+                    return Keyboard.current.vKey;
+                case (KeyCode)119:
+                    return Keyboard.current.wKey;
+                case (KeyCode)120:
+                    return Keyboard.current.xKey;
+                case (KeyCode)121:
+                    return Keyboard.current.yKey;
+                case (KeyCode)122:
+                    return Keyboard.current.zKey;
+                case (KeyCode)127:
+                    return Keyboard.current.deleteKey;
+                case (KeyCode)256:
+                    return Keyboard.current.numpad0Key;
+                case (KeyCode)257:
+                    return Keyboard.current.numpad1Key;
+                case (KeyCode)258:
+                    return Keyboard.current.numpad2Key;
+                case (KeyCode)259:
+                    return Keyboard.current.numpad3Key;
+                case (KeyCode)260:
+                    return Keyboard.current.numpad4Key;
+                case (KeyCode)261:
+                    return Keyboard.current.numpad5Key;
+                case (KeyCode)262:
+                    return Keyboard.current.numpad6Key;
+                case (KeyCode)263:
+                    return Keyboard.current.numpad7Key;
+                case (KeyCode)264:
+                    return Keyboard.current.numpad8Key;
+                case (KeyCode)265:
+                    return Keyboard.current.numpad9Key;
+                case (KeyCode)266:
+                    return Keyboard.current.numpadPeriodKey;
+                case (KeyCode)267:
+                    return Keyboard.current.numpadDivideKey;
+                case (KeyCode)268:
+                    return Keyboard.current.numpadMultiplyKey;
+                case (KeyCode)269:
+                    return Keyboard.current.numpadMinusKey;
+                case (KeyCode)270:
+                    return Keyboard.current.numpadPlusKey;
+                case (KeyCode)271:
+                    return Keyboard.current.numpadEnterKey;
+                case (KeyCode)272:
+                    return Keyboard.current.numpadEqualsKey;
+                case (KeyCode)273:
+                    return Keyboard.current.upArrowKey;
+                case (KeyCode)274:
+                    return Keyboard.current.downArrowKey;
+                case (KeyCode)275:
+                    return Keyboard.current.rightArrowKey;
+                case (KeyCode)276:
+                    return Keyboard.current.leftArrowKey;
+                case (KeyCode)277:
+                    return Keyboard.current.insertKey;
+                case (KeyCode)278:
+                    return Keyboard.current.homeKey;
+                case (KeyCode)279:
+                    return Keyboard.current.endKey;
+                case (KeyCode)280:
+                    return Keyboard.current.pageUpKey;
+                case (KeyCode)281:
+                    return Keyboard.current.pageDownKey;
+                case (KeyCode)282:
+                    return Keyboard.current.f1Key;
+                case (KeyCode)283:
+                    return Keyboard.current.f2Key;
+                case (KeyCode)284:
+                    return Keyboard.current.f3Key;
+                case (KeyCode)285:
+                    return Keyboard.current.f4Key;
+                case (KeyCode)286:
+                    return Keyboard.current.f5Key;
+                case (KeyCode)287:
+                    return Keyboard.current.f6Key;
+                case (KeyCode)288:
+                    return Keyboard.current.f7Key;
+                case (KeyCode)289:
+                    return Keyboard.current.f8Key;
+                case (KeyCode)290:
+                    return Keyboard.current.f9Key;
+                case (KeyCode)291:
+                    return Keyboard.current.f10Key;
+                case (KeyCode)292:
+                    return Keyboard.current.f11Key;
+                case (KeyCode)293:
+                    return Keyboard.current.f12Key;
+                case (KeyCode)300:
+                    return Keyboard.current.numLockKey;
+                case (KeyCode)301:
+                    return Keyboard.current.capsLockKey;
+                case (KeyCode)302:
+                    return Keyboard.current.scrollLockKey;
+                case (KeyCode)303:
+                    return Keyboard.current.rightShiftKey;
+                case (KeyCode)304:
+                    return Keyboard.current.leftShiftKey;
+                case (KeyCode)305:
+                    return Keyboard.current.rightCtrlKey;
+                case (KeyCode)306:
+                    return Keyboard.current.leftCtrlKey;
+                case (KeyCode)307:
+                    return Keyboard.current.rightAltKey;
+                case (KeyCode)308:
+                    return Keyboard.current.leftAltKey;
+                case (KeyCode)309:
+                    return Keyboard.current.rightCommandKey;
+                case (KeyCode)310:
+                    return Keyboard.current.leftCommandKey;
+                case (KeyCode)311:
+                    return Keyboard.current.leftWindowsKey;
+                case (KeyCode)312:
+                    return Keyboard.current.rightWindowsKey;
+                case (KeyCode)316:
+                    return Keyboard.current.printScreenKey;
+                case (KeyCode)319:
+                    return Keyboard.current.contextMenuKey;
+                case (KeyCode)323:
+                    return Mouse.current.leftButton;
+                case (KeyCode)324:
+                    return Mouse.current.rightButton;
+                case (KeyCode)325:
+                    return Mouse.current.middleButton;
+                case (KeyCode)326:
+                    return Mouse.current.backButton;
+                case (KeyCode)327:
+                    return Mouse.current.forwardButton;
+            }
+            return null;
+        }
+    }
+}

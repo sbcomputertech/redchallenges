@@ -1,0 +1,65 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <DebugType>embedded</DebugType>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <Description>Example SpiderHeck mod</Description>
+        <Version>1.0.0</Version>
+        <Configurations>Debug;Release;Debu</Configurations>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <GameVersion>0.76.1-r.1</GameVersion>
+        <UseWPF>True</UseWPF>
+        <AssemblyName>RedChallenges</AssemblyName>
+        <RootNamespace>ChallengeMod</RootNamespace>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debu|AnyCPU'">
+      <DebugType>portable</DebugType>
+    </PropertyGroup>
+
+    <ItemGroup>
+
+        <PackageReference Include="SpiderHeck.GameLibs" Version="0.86.3-r.0" />
+
+        <PackageReference Include="UnityEngine.Modules" Version="2020.3.13" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="0Harmony">
+        <HintPath>..\Libraries\0Harmony.dll</HintPath>
+      </Reference>
+      <Reference Include="BepInEx">
+        <HintPath>..\Libraries\BepInEx.dll</HintPath>
+      </Reference>
+      <Reference Include="MyScriptAssembly">
+        <HintPath>..\Libraries\MyScriptAssembly.dll</HintPath>
+      </Reference>
+      <Reference Include="UnityEngine">
+        <HintPath>..\Libraries\UnityEngine.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <Target Name="Copy" AfterTargets="Build" Condition="'$(SpiderHeck)' != ''">
+        <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(SpiderHeck)\BepInEx\plugins\" UseSymboliclinksIfPossible="true" />
+    </Target>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec Command="copy /Y &quot;C:\Users\Sam Bennett\source\repos\Spooder\testmod\ExampleMod\bin\Debug\netstandard2.0\RedChallenges.dll&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\SpiderHeck Demo\BepInEx\plugins\RedChallenges.dll&quot;" />
+    </Target>
+
+</Project>
