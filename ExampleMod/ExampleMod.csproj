@@ -54,8 +54,8 @@
       </Reference>
      </ItemGroup>
 
-    <Target Name="PostBuild" ContinueOnError="true" AfterTargets="PostBuildEvent">
-      <Exec Command="copy /Y &quot;C:\Users\Sam Bennett\source\repos\Spooder\testmod\ExampleMod\bin\Debug\netstandard2.0\RedChallenges.dll&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\SpiderHeck Demo\BepInEx\plugins\RedChallenges.dll&quot;" />
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+      <Exec ContinueOnError="WarnAndContinue" Command="copy /Y &quot;C:\Users\Sam Bennett\source\repos\Spooder\testmod\ExampleMod\bin\Debug\netstandard2.0\RedChallenges.dll&quot; &quot;C:\Program Files (x86)\Steam\steamapps\common\SpiderHeck Demo\BepInEx\plugins\RedChallenges.dll&quot;" />
     </Target>
 
 </Project>
