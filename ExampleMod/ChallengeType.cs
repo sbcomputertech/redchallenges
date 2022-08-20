@@ -6,7 +6,8 @@
         JUMP_PLUS_50_PERCENT,
         BIG_PARTICLE_BLADES,
         WEAPON_SWITCHING,
-        RANDOM
+        RANDOM,
+        NONE
     }
     public static class CHHelper
     {
@@ -22,7 +23,9 @@
                     return "Your jump force increases by 50% every time you jump";
                 case ChallengeType.WEAPON_SWITCHING:
                     return "You throw away your weapon every 10 seconds";
-                default: return "A random challenge";
+                case ChallengeType.RANDOM:
+                    return "A random challenge";
+                default: return "No challenge";
             }
         }
         public static ChallengeType GetRandom()
