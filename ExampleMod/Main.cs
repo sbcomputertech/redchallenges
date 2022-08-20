@@ -17,7 +17,7 @@ namespace ChallengeMod
         public const string ModName = "Challenges";
         public const string ModAuthor  = "reddust9";
         public const string ModGUID = "me.rd9.challengemod";
-        public const string ModVersion = "1.0.0";
+        public const string ModVersion = "1.0.2";
         public static bool menuEnabled = false;
         internal Harmony? Harmony;
         public static ManualLogSource? mLog;
