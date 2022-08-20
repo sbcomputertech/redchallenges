@@ -7,10 +7,10 @@ namespace ChallengeMod
         public static GUIContent gc = new GUIContent("Select an option");
         public void OnGUI()
         {
-            gc.text = DataStore.ChallengeType.ToString();
+            gc.text = CHHelper.ToString(DataStore.ChallengeType);
 
             Rect menuRect;
-            menuRect = new(100f, 100f, 350f, (50 * Enum.GetValues(typeof(ChallengeType)).Length) + 135);
+            menuRect = new(100f, 100f, 400f, (50 * Enum.GetValues(typeof(ChallengeType)).Length) + 150);
             int valX = 0;
             int valY = 0;
 
@@ -35,13 +35,13 @@ namespace ChallengeMod
                         valY = 0;
                         valX += 173;
                     }
-                    if (GUI.Button(new Rect(25f + (float)valX, (float)(25 + valY), 250f, 40f), new GUIContent(c.ToString()), bstyle))
+                    if (GUI.Button(new Rect(25f + (float)valX, (float)(25 + valY), 350f, 40f), new GUIContent(CHHelper.ToString(c)), bstyle))
                     {
                         Main.DoDataStoreChange(c);
                     }
                     valY += 47;
                 }
-                GUI.Box(new Rect(25f + (float)valX, (float)(25 + valY), 250f, 50f), gc);
+                GUI.Box(new Rect(25f + (float)valX, (float)(25 + valY), 350f, 50f), gc);
                 GUI.EndGroup();
             }
         }

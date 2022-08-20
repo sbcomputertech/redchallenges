@@ -10,7 +10,7 @@
     }
     public static class CHHelper
     {
-        public static string GetConfigTitle(this ChallengeType challengeType)
+        public static string ToString(ChallengeType challengeType)
         {
             switch(challengeType)
             {
