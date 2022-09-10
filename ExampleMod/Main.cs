@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,7 +18,7 @@ namespace ChallengeMod
         public const string ModName = "Challenges";
         public const string ModAuthor  = "reddust9";
         public const string ModGUID = "me.rd9.challengemod";
-        public const string ModVersion = "1.0.2";
+        public const string ModVersion = "1.1.0";
         public static bool menuEnabled = false;
         public static bool enemyAiDisabled = false;
         internal Harmony? Harmony;
@@ -94,30 +95,31 @@ namespace ChallengeMod
             mLog.LogInfo("<Keyboard>/#(" + DataStore.MenuHotkey.ToString() + ")");
         }
     }
-    /* Harmony patches modify the game code at runtime
-     * Official website: https://harmony.pardeike.net/
-     * Introduction: https://harmony.pardeike.net/articles/intro.html
-     * API Documentation: https://harmony.pardeike.net/api/index.html
-     */
-
-    // Here's the example of harmony patch
-    [HarmonyPatch(typeof(VersionNumberTextMesh), nameof(VersionNumberTextMesh.Start))]
-    /* We're patching the method "Start" of class VersionNumberTextMesh
-    * The first argument can typeof(class) or class name (string). Warning: it's case-sensitive
-    * The second argument is our method. It can be a nameof(class.method) or method name (string). Also case-sensitive
-    * So, for example, patch can look like this:
-    * [HarmonyPatch("VersionNumberTextMesh", "Start")]
-    * Or like this:
-    * [HarmonyPatch(typeof(VersionNumberTextMesh), nameof(VersionNumberTextMesh.Start))
-    */
-    public class VersionNumberTextMeshPatch
+    [HarmonyPatch(typeof(SurvivalModeHud), nameof(SurvivalModeHud.UpdateLivesCounter))]
+    public class PatchLivesText
     {
-        // Postfix is called after executing target method's code.
-        [HarmonyPostfix]
-        public static void VersionNumberStuff(VersionNumberTextMesh __instance)
+        public static float baseFS;
+
+        [HarmonyPrefix]
+        public static bool LivesNumberStuff(ref SurvivalModeHud __instance)
         {
-            // We're adding new line to version text.
-            __instance.textMesh.text += $"\n<color=red>{Main.ModName} v{Main.ModVersion} by {Main.ModAuthor}</color>";
+            if (SurvivalMode.instance.EndlessSurvivalActive() && DataStore.ChallengeType == ChallengeType.BULLET_HELL)
+            {
+                __instance.livesCounter.transform.parent.gameObject.SetActive(true);
+                __instance.livesCounter.text = "One";
+                __instance.livesCounter.fontSize = baseFS - 6;
+                return false;
+            }
+            return true;
+        }
+    }
+    [HarmonyPatch(typeof(SurvivalModeHud), nameof(SurvivalModeHud.Awake))]
+    public class SMHAwakePatch
+    {
+        [HarmonyPostfix]
+        public static void SetBaseFS(ref SurvivalModeHud __instance)
+        {
+            PatchLivesText.baseFS = __instance.livesCounter.fontSize;
         }
     }
 
@@ -218,12 +220,18 @@ namespace ChallengeMod
                 GameObject spawnedWeapon = Object.Instantiate(SurvivalMode.instance.GetRandomWeapon(rareWeapon),
                     __instance.transform.position, __instance.transform.rotation);
 
+                Main.mLog.LogInfo("Weapon to spawn: " + spawnedWeapon.name);
+
                 NetworkObject component = spawnedWeapon.GetComponent<NetworkObject>();
                 component.Spawn(true);
                 component.DestroyWithScene = true;
 
+                Main.mLog.LogInfo("Ran network spawn");
+
                 Weapon weapon = spawnedWeapon.GetComponent<Weapon>();
                 manager.EquipWeapon(weapon);
+
+                Main.mLog.LogInfo("Equipped weapon");
             }
         }
     }
@@ -256,7 +264,7 @@ namespace ChallengeMod
         {
             if (DataStore.ChallengeType != ChallengeType.BULLET_HELL) return;
 
-            if(enemyTimer > 500)
+            if(enemyTimer > 450)
             {
                 EnemySpawner.instance.SpawnRandomEnemy();
                 enemyTimer = 0;
@@ -268,10 +276,23 @@ namespace ChallengeMod
             Grenade[] bullets = FindObjectsOfType<Grenade>();
             foreach (Grenade bullet in bullets)
             {
-                bullet._timeToExplode = 1;
+                bullet._timeToExplode = 10;
             }
 
             SurvivalMode.instance.Lives = 1;
+        }
+    }
+    [HarmonyPatch(typeof(SpiderController), nameof(SpiderController.HandleGroundMovement))]
+    public class SCHGM
+    {
+        [HarmonyPrefix]
+        public static void Patch(ref float x, ref float y)
+        {
+            if(DataStore.ChallengeType == ChallengeType.INVERTED_CTRL)
+            {
+                x = -x;
+                y = -y;
+            }
         }
     }
 }

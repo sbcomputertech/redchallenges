@@ -7,6 +7,7 @@
         BIG_PARTICLE_BLADES,
         WEAPON_SWITCHING,
         BULLET_HELL,
+        INVERTED_CTRL,
         RANDOM,
         NONE
     }
@@ -26,6 +27,8 @@
                     return "You throw away your weapon every 10 seconds";
                 case ChallengeType.BULLET_HELL:
                     return "BULLET HELL MODE!";
+                case ChallengeType.INVERTED_CTRL:
+                    return "Controls are inverted";
                 case ChallengeType.RANDOM:
                     return "A random challenge";
                 default: return "No challenge";
