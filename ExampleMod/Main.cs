@@ -19,8 +19,9 @@ namespace ChallengeMod
         public const string ModGUID = "me.rd9.challengemod";
         public const string ModVersion = "1.0.2";
         public static bool menuEnabled = false;
+        public static bool enemyAiDisabled = false;
         internal Harmony? Harmony;
-        public static ManualLogSource? mLog;
+        public static ManualLogSource mLog = new ManualLogSource("error: mod uninitialized");
         private int timeToSwitchWeapon = 500;
         internal void Awake()
         {
@@ -61,6 +62,11 @@ namespace ChallengeMod
             {
                 base.Logger.LogInfo(string.Format("Menu Toggled: {0}", menuEnabled));
                 menuEnabled = !menuEnabled;
+            }
+            if(Utils.GetControl(KeyCode.F9).wasPressedThisFrame)
+            {
+                // nerf enemy ai
+                enemyAiDisabled = !enemyAiDisabled;
             }
         }
         public static void DoDataStoreChange(object sender, EventArgs eargs)
@@ -129,6 +135,15 @@ namespace ChallengeMod
         }
     }
 
+    [HarmonyPatch(typeof(SpiderController), nameof(SpiderController.FixedUpdate))]
+    public class SCFU
+    {
+        public static void Postfix(ref SpiderController __instance)
+        {
+            // ok i added this by mistake but i might need it later so it'll stay
+        }
+    }
+
     [HarmonyPatch(typeof(SpiderController), nameof(SpiderController.Jump))]
     public class SpiderControllerJumpPatch
     {
@@ -194,6 +209,7 @@ namespace ChallengeMod
             if(manager.equippedWeapon && DataStore.shouldSwitchWeapon && DataStore.ChallengeType == ChallengeType.WEAPON_SWITCHING)
             {
                 manager.ThrowWeapon();
+                manager.lastWeapon.ammo -= 1;
                 manager.lastWeapon = null;
 
                 Random rand = new Random();
@@ -218,6 +234,44 @@ namespace ChallengeMod
         public static void AddGuiScript(ref GameController __instance)
         {
             __instance.gameObject.AddComponent(typeof(GuiMonoBehaviour));
+            __instance.gameObject.AddComponent(typeof(BulletHellController));
+        }
+    }
+    [HarmonyPatch(typeof(EnemyBrain), nameof(EnemyBrain.FixedUpdate))]
+    public class NerfEnemies
+    {
+        public static void Postfix(ref EnemyBrain __instance)
+        {
+            __instance.enabled = !Main.enemyAiDisabled;
+        }
+    }
+    public class BulletHellController : MonoBehaviour
+    {
+        public int enemyTimer = 0;
+        public void Awake()
+        {
+            Main.mLog.LogInfo("BulletHellController active!");
+        }
+        public void FixedUpdate()
+        {
+            if (DataStore.ChallengeType != ChallengeType.BULLET_HELL) return;
+
+            if(enemyTimer > 500)
+            {
+                EnemySpawner.instance.SpawnRandomEnemy();
+                enemyTimer = 0;
+            } else
+            {
+                enemyTimer++;
+            }
+
+            Grenade[] bullets = FindObjectsOfType<Grenade>();
+            foreach (Grenade bullet in bullets)
+            {
+                bullet._timeToExplode = 1;
+            }
+
+            SurvivalMode.instance.Lives = 1;
         }
     }
 }

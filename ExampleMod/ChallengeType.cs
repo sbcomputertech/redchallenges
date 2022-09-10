@@ -6,6 +6,7 @@
         JUMP_PLUS_50_PERCENT,
         BIG_PARTICLE_BLADES,
         WEAPON_SWITCHING,
+        BULLET_HELL,
         RANDOM,
         NONE
     }
@@ -23,6 +24,8 @@
                     return "Your jump force increases by 50% every time you jump";
                 case ChallengeType.WEAPON_SWITCHING:
                     return "You throw away your weapon every 10 seconds";
+                case ChallengeType.BULLET_HELL:
+                    return "BULLET HELL MODE!";
                 case ChallengeType.RANDOM:
                     return "A random challenge";
                 default: return "No challenge";
@@ -31,18 +34,9 @@
         public static ChallengeType GetRandom()
         {
             Random r = new();
-            switch(r.Next(Enum.GetValues(typeof(ChallengeType)).Length - 1))
-            {
-                case 0:
-                    return ChallengeType.ENEMY_ON_JUMP;
-                case 1:
-                    return ChallengeType.JUMP_PLUS_50_PERCENT;
-                case 2:
-                    return ChallengeType.BIG_PARTICLE_BLADES;
-                case 3:
-                    return ChallengeType.WEAPON_SWITCHING;
-                default: return ChallengeType.ENEMY_ON_JUMP;
-            }
+            var values = Enum.GetValues(typeof(ChallengeType));
+            int random = r.Next(values.Length);
+            return (ChallengeType) values.GetValue(random);
         }
     }
 }
