@@ -21,6 +21,7 @@ namespace ChallengeMod
         public const string ModVersion = "1.1.0";
         public static bool menuEnabled = false;
         public static bool enemyAiDisabled = false;
+        public static bool scrMode = false;
         internal Harmony? Harmony;
         public static ManualLogSource mLog = new ManualLogSource("error: mod uninitialized");
         private int timeToSwitchWeapon = 500;
@@ -47,6 +48,12 @@ namespace ChallengeMod
                     ),
                     new KeyboardShortcut(KeyCode.T, new KeyCode[0])
                 ).SettingChanged += new EventHandler(DoHotKeyChange);
+            Config.Bind<bool>(
+                new ConfigDefinition(
+                    "Challenge settings", "Scribblzz mode:"
+                ),
+                false
+            ).SettingChanged += new EventHandler(ScribblzzModeToggle);
         }
         internal void FixedUpdate()
         {
@@ -77,6 +84,19 @@ namespace ChallengeMod
             if(DataStore.ChallengeType == ChallengeType.RANDOM)
             {
                 DataStore.ChallengeType = CHHelper.GetRandom();
+            }
+        }
+        public static void ScribblzzModeToggle(object sender, EventArgs eargs)
+        {
+            SettingChangedEventArgs args = (SettingChangedEventArgs)eargs;
+            if((bool)args.ChangedSetting.BoxedValue)
+            {
+                Main.mLog.LogInfo("Scribblzz mode on!");
+                Main.scrMode = true;
+            } else
+            {
+                Main.mLog.LogInfo("Scribblzz mode off!");
+                Main.scrMode = false;
             }
         }
         public static void DoDataStoreChange(ChallengeType type)
@@ -181,7 +201,7 @@ namespace ChallengeMod
                         EnemySpawner.instance.SpawnRandomEnemy();
                     }
                     Random r = new();
-                    if (r.Next(5) == 0) amountToSpawn++;
+                    if (!Main.scrMode && r.Next(5) == 0) amountToSpawn++;
                 }
                 catch { }
             }
@@ -211,10 +231,9 @@ namespace ChallengeMod
             if(manager.equippedWeapon && DataStore.shouldSwitchWeapon && DataStore.ChallengeType == ChallengeType.WEAPON_SWITCHING)
             {
                 manager.ThrowWeapon();
-                manager.lastWeapon.ammo -= 1;
-                manager.lastWeapon = null;
+                manager.lastWeapon.Delete();
 
-                Random rand = new Random();
+                Random rand = new();
                 bool rareWeapon = rand.Next(5) == 0;
 
                 GameObject spawnedWeapon = Object.Instantiate(SurvivalMode.instance.GetRandomWeapon(rareWeapon),
@@ -256,6 +275,7 @@ namespace ChallengeMod
     public class BulletHellController : MonoBehaviour
     {
         public int enemyTimer = 0;
+        public int enTime;
         public void Awake()
         {
             Main.mLog.LogInfo("BulletHellController active!");
@@ -264,7 +284,9 @@ namespace ChallengeMod
         {
             if (DataStore.ChallengeType != ChallengeType.BULLET_HELL) return;
 
-            if(enemyTimer > 450)
+            enTime = Main.scrMode ? 500 : 400;
+
+            if (enemyTimer > enTime)
             {
                 EnemySpawner.instance.SpawnRandomEnemy();
                 enemyTimer = 0;
@@ -279,6 +301,8 @@ namespace ChallengeMod
                 bullet._timeToExplode = 10;
             }
 
+
+
             SurvivalMode.instance.Lives = 1;
         }
     }
@@ -290,8 +314,8 @@ namespace ChallengeMod
         {
             if(DataStore.ChallengeType == ChallengeType.INVERTED_CTRL)
             {
+                if(!Main.scrMode) y = -y;
                 x = -x;
-                y = -y;
             }
         }
     }
