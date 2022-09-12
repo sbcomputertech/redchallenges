@@ -1,1 +1,3 @@
-- 
+- enemies spawn every do often
+- grenades have a much shorter fuse
+-
