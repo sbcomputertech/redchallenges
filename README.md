@@ -10,4 +10,6 @@ Press `t` in-game to open the challenge menu (this does not work when paused), w
 The keybind can be changed in the mod's configuration.  
 There is also a config option that you can use to select a challenge, but this is deprecated
 
+__Check out the release notes of the latest version for additional info__
+
 [Video (YouTube)](https://www.youtube.com/watch?v=XseI2yePT3Y)
