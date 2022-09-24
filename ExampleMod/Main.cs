@@ -12,13 +12,13 @@ using Random = System.Random;
 namespace ChallengeMod
 {
     [BepInPlugin(ModName, ModGUID, ModVersion)]
-    [BepInProcess("SPIDERHECK.exe")]
+    [BepInProcess("SpiderHeckApp.exe")]
     public class Main : BaseUnityPlugin
     {
         public const string ModName = "Challenges";
         public const string ModAuthor  = "reddust9";
         public const string ModGUID = "me.rd9.challengemod";
-        public const string ModVersion = "1.1.0";
+        public const string ModVersion = "1.2.0";
         public static bool menuEnabled = false;
         public static bool enemyAiDisabled = false;
         public static bool scrMode = false;
