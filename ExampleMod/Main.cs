@@ -12,7 +12,6 @@ using Random = System.Random;
 namespace ChallengeMod
 {
     [BepInPlugin(ModName, ModGUID, ModVersion)]
-    [BepInProcess("SpiderHeckApp.exe")]
     public class Main : BaseUnityPlugin
     {
         public const string ModName = "Challenges";

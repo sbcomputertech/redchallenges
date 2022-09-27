@@ -34,7 +34,7 @@
 
     <ItemGroup>
 
-        <PackageReference Include="SpiderHeck.GameLibs" Version="0.86.3-r.0" />
+        <PackageReference Include="SpiderHeck.GameLibs" Version="1.0.0-r.0" />
 
         <PackageReference Include="UnityEngine.Modules" Version="2020.3.13" PrivateAssets="all" />
     </ItemGroup>
@@ -43,8 +43,11 @@
       <Reference Include="0Harmony">
         <HintPath>..\Libraries\0Harmony.dll</HintPath>
       </Reference>
-      <Reference Include="BepInEx">
-        <HintPath>..\Libraries\BepInEx.dll</HintPath>
+      <Reference Include="BepInEx.Core">
+        <HintPath>..\Libraries\BepInEx.Core.dll</HintPath>
+      </Reference>
+      <Reference Include="BepInEx.Unity">
+        <HintPath>..\Libraries\BepInEx.Unity.dll</HintPath>
       </Reference>
       <Reference Include="MyScriptAssembly">
         <HintPath>..\Libraries\MyScriptAssembly.dll</HintPath>
