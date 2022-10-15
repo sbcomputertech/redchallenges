@@ -11,7 +11,7 @@ using Random = System.Random;
 
 namespace ChallengeMod
 {
-    [BepInPlugin(ModGUID, ModName, ModVersion, new string[] { "reddust9" })]
+    [BepInPlugin(ModGUID, ModName, ModVersion)]
     public class Main : BaseUnityPlugin
     {
         public const string ModName = "RedChallenges";
