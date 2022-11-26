@@ -1,5 +1,5 @@
 # RedChallenges
-### SpiderHeck mod made with BepInEx  
+![bepinhecks](https://cdn.jsdelivr.net/npm/@intergrav/devins-badges@2/assets/cozy/built-with/bepinhecks_vector.svg)
 
 This is a mod that adds various challenges to the game, such as
 - Every time you jump, an enemy spawns
